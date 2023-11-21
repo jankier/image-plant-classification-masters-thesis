@@ -2,6 +2,10 @@ from keras.optimizers import Adam
 from sklearn.metrics import accuracy_score
 from CNN_architecture import create_model
 import numpy as np
+import os
+import sys
+sys.path.insert(0, "E:\Programowanie\master-thesis\image-plant-classification\variable_models")
+from variable_models.tomato_gray import npy_directory, test_img_data_name, test_labels_data_name, weights_directory, best_weight
 
 def main():
         
@@ -15,11 +19,11 @@ def main():
     final_model = create_model(input_shape, n_classes, optimizer, fine_tune)
     
     #Loading of weights achieved from training of CNN
-    final_model.load_weights('CNN_image_classification.weights.best.hdf5') # initialize the best trained weights
+    final_model.load_weights(os.path.join(weights_directory, best_weight)) # initialize the best trained weights
     
     #Loading of previously prepared test data
-    X_test = np.load(r'E:\Programowanie\magisterka\test_img.npy', allow_pickle=True)
-    y_test = np.load(r'E:\Programowanie\magisterka\test_labels.npy', allow_pickle=True)
+    X_test = np.load(os.path.join(npy_directory, test_img_data_name), allow_pickle=True)
+    y_test = np.load(os.path.join(npy_directory, test_labels_data_name), allow_pickle=True)
 
     #Model predicting
     final_model_predicts = final_model.predict(X_test)

@@ -4,23 +4,17 @@ import cv2
 import os
 import random
 from sklearn.model_selection import train_test_split
+import sys
+sys.path.insert(0, "E:\Programowanie\master-thesis\image-plant-classification\variable_models")
+from variable_models.potato_seg import img_directory, classes, npy_directory, training_img_data_name, training_labels_data_name, test_img_data_name, test_labels_data_name, validation_img_data_name, validation_labels_data_name
 
 def main():
     
     # Specification of dataset directory
-    data_dir = "E:\Programowanie\magisterka\plantvillage_dataset\color"
+    data_dir = img_directory
     
     # Specification of categories of images
-    categories = ["Tomato___Bacterial_spot", 
-                  "Tomato___Early_blight",
-                  "Tomato___healthy",
-                  "Tomato___Late_blight",
-                  "Tomato___Leaf_Mold",
-                  "Tomato___Mosaic_virus",
-                  "Tomato___Septoria_leaf_spot",
-                  "Tomato___Spider_mites",
-                  "Tomato___Target_Spot",
-                  "Tomato___Yellow_Leaf_Curl_Virus"]
+    categories = classes
     
     #Preparation of acquired image data
     prepared_data = []
@@ -37,7 +31,7 @@ def main():
                 prepared_data.append([img_resized, class_num])
             except Exception as e:
                 pass
-            
+    
     print(len(prepared_data))
     
     #Shuffling of the data to assure diversity of neighboring data elements
@@ -55,13 +49,24 @@ def main():
     y = np.array(y)
     
     #Splitting the data to train/test batches
-    training_img, test_img, training_labels, test_labels = train_test_split(X, y, test_size=0.30, random_state=42)
+    training_img, test_img, training_labels, test_labels = train_test_split(X, y, test_size=0.20, random_state=1)
+    
+    #Splitting the data to train/validation batches
+    training_img, validation_img, training_labels, validation_labels = train_test_split(training_img, training_labels, test_size=0.25, random_state=1)
+    
+    #Creation of new directory for prepared data
+    if not os.path.exists(npy_directory):
+        os.mkdir(npy_directory)
+    
+    os.chdir(npy_directory)
     
     #Saving of the data
-    np.save('training_img.npy',training_img, allow_pickle=True)
-    np.save('test_img.npy',test_img, allow_pickle=True)
-    np.save('training_labels.npy',training_labels, allow_pickle=True)
-    np.save('test_labels.npy',test_labels, allow_pickle=True)
+    np.save(training_img_data_name, training_img, allow_pickle=True)
+    np.save(training_labels_data_name, training_labels, allow_pickle=True)
+    np.save(test_img_data_name, test_img, allow_pickle=True)
+    np.save(test_labels_data_name, test_labels, allow_pickle=True)
+    np.save(validation_img_data_name, validation_img, allow_pickle=True)
+    np.save(validation_labels_data_name, validation_labels, allow_pickle=True)
     
     print("conversion done")
     

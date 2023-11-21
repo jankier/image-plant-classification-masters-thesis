@@ -4,6 +4,10 @@ from keras.utils import plot_model
 from livelossplot.inputs.keras import PlotLossesCallback
 from CNN_architecture import create_model
 import numpy as np
+import os
+import sys
+sys.path.insert(0, "E:\Programowanie\master-thesis\image-plant-classification\variable_models")
+from variable_models.tomato_color import npy_directory, training_img_data_name, training_labels_data_name, validation_img_data_name, validation_labels_data_name, weights_directory, best_weight
 
 def main():
     
@@ -20,7 +24,7 @@ def main():
     
     #ModelCheckpoint to save the best achieved weights
     tl_checkpoint_1 = ModelCheckpoint(
-                                filepath='CNN_image_classification.weights.best.hdf5',
+                                filepath= os.path.join(weights_directory, best_weight),
                                 save_best_only=True,
                                 verbose=1)
     
@@ -39,8 +43,10 @@ def main():
     print(final_model.summary())
     
     #Loading of previously prepared training data
-    X_train = np.load(r'E:\Programowanie\magisterka\training_img.npy', allow_pickle=True)
-    y_train = np.load(r'E:\Programowanie\magisterka\training_labels.npy', allow_pickle=True)
+    X_train = np.load(os.path.join(npy_directory, training_img_data_name), allow_pickle=True)
+    y_train = np.load(os.path.join(npy_directory, training_labels_data_name), allow_pickle=True)
+    X_val = np.load(os.path.join(npy_directory, validation_img_data_name), allow_pickle=True)
+    y_val = np.load(os.path.join(npy_directory, validation_labels_data_name), allow_pickle=True)
     
     #Setting traning parameters
     batch_size = 10
@@ -49,7 +55,7 @@ def main():
     #Training of the model
     model_history = final_model.fit(
                             X_train,y_train,
-                            validation_split=0.1,      
+                            validation_data=(X_val, y_val),      
                             batch_size=batch_size,
                             epochs=n_epochs,
                             callbacks=[tl_checkpoint_1, early_stop, plot_loss_1],
