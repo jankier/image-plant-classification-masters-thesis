@@ -7,15 +7,16 @@ import numpy as np
 import os
 import sys
 sys.path.insert(0, "E:\Programowanie\master-thesis\image-plant-classification\variable_models")
-from variable_models.tomato_color import npy_directory, training_img_data_name, training_labels_data_name, validation_img_data_name, validation_labels_data_name, weights_directory, best_weight
+from variable_models.cherry_color import npy_directory, training_img_data_name, training_labels_data_name, validation_img_data_name, validation_labels_data_name, weights_directory, best_weight, shape, n_categories, loss_parameter
 
 def main():
     
     #Setting parameters of CNN
-    input_shape = (224, 224, 3)
+    input_shape = shape
     optimizer = Adam(learning_rate=0.001)
-    n_classes=10
+    n_classes= n_categories
     fine_tune=0
+    loss = loss_parameter
     
     #Addition of callbacks to improve CNN operation
     
@@ -36,7 +37,7 @@ def main():
                         mode='min')
     
     #Creation of the model with adjusted parameters
-    final_model = create_model(input_shape, n_classes, optimizer, fine_tune)
+    final_model = create_model(input_shape, n_classes, optimizer, fine_tune, loss)
     
     #Plotting and printing of the model summary
     # plot_model(final_model, to_file='model.png')
@@ -50,7 +51,7 @@ def main():
     
     #Setting traning parameters
     batch_size = 10
-    n_epochs = 1
+    n_epochs = 50
     
     #Training of the model
     model_history = final_model.fit(

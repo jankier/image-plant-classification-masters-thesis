@@ -2,7 +2,7 @@ from keras.models import Model
 from keras.applications.vgg16 import VGG16
 from keras.layers import Dense, Dropout, Flatten
 
-def create_model(input_shape, n_classes, optimizer, fine_tune):
+def create_model(input_shape, n_classes, optimizer, fine_tune, loss):
 
     #Importing VGG16 pretrained convolutional layers without VGG16 fully-connected layers
     conv_model = VGG16(
@@ -33,7 +33,7 @@ def create_model(input_shape, n_classes, optimizer, fine_tune):
     #Compilation of the model for training
     model.compile(
         optimizer=optimizer,
-        loss='sparse_categorical_crossentropy',
+        loss=loss,
         metrics=['accuracy'],
     )
 

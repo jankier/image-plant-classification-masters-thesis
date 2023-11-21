@@ -7,12 +7,18 @@ classes = ["Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot",
 
 npy_directory = r"E:\Programowanie\master-thesis\test_train_validation_datasets\corn_color"
 
-training_img_data_name = "training_img_corn_col"
-training_labels_data_name = "training_labels_corn_col"
-test_img_data_name = "test_img_corn_col"
-test_labels_data_name = "test_labels_corn_col"
-validation_img_data_name = "validatio_img_corn_col"
-validation_labels_data_name = "validation_labels_corn_col"
+training_img_data_name = "training_img_corn_col.npy"
+training_labels_data_name = "training_labels_corn_col.npy"
+test_img_data_name = "test_img_corn_col.npy"
+test_labels_data_name = "test_labels_corn_col.npy"
+validation_img_data_name = "validatio_img_corn_col.npy"
+validation_labels_data_name = "validation_labels_corn_col.npy"
+
+shape = (224, 224, 3)
+
+n_categories = len(classes)
+
+loss_parameter = 'sparse_categorical_crossentropy'
 
 weights_directory = r"E:\Programowanie\master-thesis\weights"
 
