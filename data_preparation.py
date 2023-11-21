@@ -6,7 +6,7 @@ import random
 from sklearn.model_selection import train_test_split
 import sys
 sys.path.insert(0, "E:\Programowanie\master-thesis\image-plant-classification\variable_models")
-from variable_models.potato_seg import img_directory, classes, npy_directory, training_img_data_name, training_labels_data_name, test_img_data_name, test_labels_data_name, validation_img_data_name, validation_labels_data_name
+from variable_models.pepper_color import img_directory, classes, npy_directory, training_img_data_name, training_labels_data_name, test_img_data_name, test_labels_data_name, validation_img_data_name, validation_labels_data_name
 
 def main():
     
