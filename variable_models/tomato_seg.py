@@ -1,4 +1,4 @@
-img_directory = "E:\Programowanie\master-thesis\plantvillage_dataset\segmented"
+img_directory = "./plantvillage_dataset\segmented"
 
 classes = ["Tomato___Bacterial_spot", 
                 "Tomato___Early_blight",
@@ -11,7 +11,7 @@ classes = ["Tomato___Bacterial_spot",
                 "Tomato___Target_Spot",
                 "Tomato___Yellow_Leaf_Curl_Virus"]
 
-npy_directory = r"E:\Programowanie\master-thesis\test_train_validation_datasets\tomato_seg"
+npy_directory = r"./test_train_validation_datasets/tomato_seg"
 
 training_img_data_name = "training_img_tomato_seg.npy"
 training_labels_data_name = "training_labels_tomato_seg.npy"
@@ -26,6 +26,8 @@ n_categories = len(classes)
 
 loss_parameter = 'sparse_categorical_crossentropy'
 
-weights_directory = r"E:\Programowanie\master-thesis\weights"
+weights_directory = r"./weights"
 
 best_weight = "tomato_seg.weights.best.hdf5"
+
+title = "Tomato segmented"

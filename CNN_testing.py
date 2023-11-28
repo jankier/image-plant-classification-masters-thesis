@@ -6,11 +6,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 import sys
-sys.path.insert(0, "E:\Programowanie\master-thesis\image-plant-classification\variable_models")
-from variable_models.cherry_color import classes, npy_directory, test_img_data_name, test_labels_data_name, weights_directory, best_weight, shape, n_categories, loss_parameter
+sys.path.insert(0, "./variable_models")
+from variable_models.cherry_gray import classes, npy_directory, test_img_data_name, test_labels_data_name, weights_directory, best_weight, shape, n_categories, loss_parameter, title
 
 def main():
-        
+    
     #Setting parameters of CNN
     input_shape = shape
     optimizer = Adam(learning_rate=0.001)
@@ -40,11 +40,9 @@ def main():
     
     #Plotting confusion matrix
     fig = plt.figure(figsize=(20, 10))
-    plot_matrix(y_test, predicted_classes, classes)
+    plot_matrix(y_test, predicted_classes, classes, title)
     fig.suptitle("Confusion Matrix Model", fontsize=24)
-    plt.title("Prediction results", fontsize=16)
-    plt.ylabel('True Label', fontsize=12)
-    plt.xlabel('Predicted Label', fontsize=12)
+    fig.tight_layout()
     plt.show()
     
 main()

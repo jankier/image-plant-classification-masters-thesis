@@ -1,10 +1,10 @@
-img_directory = "E:\Programowanie\master-thesis\plantvillage_dataset\segmented"
+img_directory = "./plantvillage_dataset\segmented"
 
 classes = ["Potato___Early_blight", 
                 "Potato___healthy",
                 "Potato___Late_blight"]
 
-npy_directory = r"E:\Programowanie\master-thesis\test_train_validation_datasets\potato_seg"
+npy_directory = r"./test_train_validation_datasets/potato_seg"
 
 training_img_data_name = "training_img_potato_seg.npy"
 training_labels_data_name = "training_labels_potato_seg.npy"
@@ -19,6 +19,8 @@ n_categories = len(classes)
 
 loss_parameter = 'sparse_categorical_crossentropy'
 
-weights_directory = r"E:\Programowanie\master-thesis\weights"
+weights_directory = r"./weights"
 
 best_weight = "potato_seg.weights.best.hdf5"
+
+title = "Potato segmented"

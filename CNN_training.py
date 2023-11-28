@@ -6,8 +6,8 @@ from CNN_architecture import create_model
 import numpy as np
 import os
 import sys
-sys.path.insert(0, "E:\Programowanie\master-thesis\image-plant-classification\variable_models")
-from variable_models.cherry_color import npy_directory, training_img_data_name, training_labels_data_name, validation_img_data_name, validation_labels_data_name, weights_directory, best_weight, shape, n_categories, loss_parameter
+sys.path.insert(0, "./variable_models")
+from variable_models.apple_color import npy_directory, training_img_data_name, training_labels_data_name, validation_img_data_name, validation_labels_data_name, weights_directory, best_weight, shape, n_categories, loss_parameter, title
 
 def main():
     
@@ -32,7 +32,7 @@ def main():
     #EarlyStopping to monitor metric and in case of stop of improvements stop the learning process
     early_stop = EarlyStopping(
                         monitor='val_loss',
-                        patience=10,
+                        patience=5,
                         restore_best_weights=True,
                         mode='min')
     
@@ -51,7 +51,7 @@ def main():
     
     #Setting traning parameters
     batch_size = 10
-    n_epochs = 50
+    n_epochs = 20
     
     #Training of the model
     model_history = final_model.fit(
@@ -65,6 +65,6 @@ def main():
     #Saving the model
     # final_model.save('CNN_image_classification.h5')
     
-    print('learning finished')
+    print(title + ' - learning finished')
     
 main()

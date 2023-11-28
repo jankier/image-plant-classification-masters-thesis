@@ -5,8 +5,8 @@ import os
 import random
 from sklearn.model_selection import train_test_split
 import sys
-sys.path.insert(0, "E:\Programowanie\master-thesis\image-plant-classification\variable_models")
-from variable_models.tomato_gray import img_directory, classes, npy_directory, training_img_data_name, training_labels_data_name, test_img_data_name, test_labels_data_name, validation_img_data_name, validation_labels_data_name
+sys.path.insert(0, "./variable_models")
+from variable_models.apple_color import img_directory, classes, npy_directory, training_img_data_name, training_labels_data_name, test_img_data_name, test_labels_data_name, validation_img_data_name, validation_labels_data_name, title
 
 def main():
     
@@ -35,6 +35,7 @@ def main():
     print(len(prepared_data))
     
     #Shuffling of the data to assure diversity of neighboring data elements
+    random.seed(1)
     random.shuffle(prepared_data)
     
     #Conversion of data to fit CNN requirements
@@ -68,6 +69,6 @@ def main():
     np.save(validation_img_data_name, validation_img, allow_pickle=True)
     np.save(validation_labels_data_name, validation_labels, allow_pickle=True)
     
-    print("conversion done")
+    print(title + " - conversion done")
     
 main()

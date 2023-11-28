@@ -1,9 +1,9 @@
-img_directory = "E:\Programowanie\master-thesis\plantvillage_dataset\color"
+img_directory = "./plantvillage_dataset\color"
 
 classes = ["Cherry_(including_sour)___healthy", 
                 "Cherry_(including_sour)___Powdery_mildew"]
 
-npy_directory = r"E:\Programowanie\master-thesis\test_train_validation_datasets\cherry_color"
+npy_directory = r"./test_train_validation_datasets/cherry_color"
 
 training_img_data_name = "training_img_cherry_col.npy"
 training_labels_data_name = "training_labels_cherry_col.npy"
@@ -18,6 +18,8 @@ n_categories = len(classes)
 
 loss_parameter = 'sparse_categorical_crossentropy'
 
-weights_directory = r"E:\Programowanie\master-thesis\weights"
+weights_directory = r"./weights"
 
 best_weight = "cherry_color.weights.best.hdf5"
+
+title = "Cherry color"
