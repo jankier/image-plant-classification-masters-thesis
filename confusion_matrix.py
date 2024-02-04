@@ -6,13 +6,13 @@ def plot_matrix(y_true, y_pred, classes, title):
     cm = confusion_matrix(y_true, y_pred)
     plot = sns.heatmap(
         cm, 
-        annot=True, 
-        square=True, 
-        xticklabels=classes, 
-        yticklabels=classes,
-        fmt='d', 
-        cmap=plt.cm.Blues,
-        cbar=False,
+        annot = True, 
+        square = True, 
+        xticklabels = classes, 
+        yticklabels = classes,
+        fmt = 'd', 
+        cmap = plt.cm.Blues,
+        cbar = False,
     )
     
     plot.set_title(title + " - prediction results", fontsize=16)

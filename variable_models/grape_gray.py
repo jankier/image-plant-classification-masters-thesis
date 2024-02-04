@@ -6,12 +6,13 @@ classes = ["Grape___Black_rot",
                 "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)"]
 
 npy_directory = r"./test_train_validation_datasets/grape_gray"
+tuner_directory = "grape_gray"
 
 training_img_data_name = "training_img_grape_gray.npy"
 training_labels_data_name = "training_labels_grape_gray.npy"
 test_img_data_name = "test_img_grape_gray.npy"
 test_labels_data_name = "test_labels_grape_gray.npy"
-validation_img_data_name = "validatio_img_grape_gray.npy"
+validation_img_data_name = "validation_img_grape_gray.npy"
 validation_labels_data_name = "validation_labels_grape_gray.npy"
 
 shape = (224, 224, 3)
@@ -22,6 +23,11 @@ loss_parameter = 'sparse_categorical_crossentropy'
 
 weights_directory = r"./weights"
 
-best_weight = "grape_gray.weights.best.hdf5"
+tune = 1
 
-title = "Grape grayscale"
+if tune > 0:
+    best_weight = "grape_gray_fine_tune.weights.best.hdf5"
+    title = "Grape grayscale (fine tune)"
+else:
+    best_weight = "grape_gray.weights.best.hdf5"
+    title = "Grape grayscale"
