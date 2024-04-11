@@ -2,23 +2,15 @@ from keras.optimizers import Adam
 from keras.models import Model
 from keras.applications.vgg16 import VGG16
 from keras.layers import Dense, Dropout, Flatten
-# import neptune
-# import time
 import keras_tuner
 import numpy as np
 import os
 from dotenv import load_dotenv
 import sys
 sys.path.insert(0, "./variable_models")
-from variable_models.tomato_gray import npy_directory, tuner_directory, training_img_data_name, training_labels_data_name, validation_img_data_name, validation_labels_data_name, shape, n_categories, loss_parameter, tune
+from variable_models.tomato_color import npy_directory, species_directory, training_img_data_name, training_labels_data_name, validation_img_data_name, validation_labels_data_name, shape, n_categories, loss_parameter, tune, title
 
 load_dotenv()
-
-# # Initializing neptune.ai
-# run = neptune.init_run(
-# project="jankier/image-plant-classification-masters-thesis",
-# api_token=os.getenv('NEPTUNE_AI_TOKEN'),
-# )
 
 # Loading of previously prepared training data
 X_train = np.load(os.path.join(npy_directory, training_img_data_name), allow_pickle=True)
@@ -33,7 +25,7 @@ if not os.path.exists(r"./tuner_results"):
 os.chdir(r"./tuner_results")
 
 # Specifying log directory
-LOG_DIR = tuner_directory
+LOG_DIR = species_directory
 
 def create_model(hp):
 
@@ -76,7 +68,7 @@ def create_model(hp):
     return model
 
 # Defining tuner type and its parameters
-tuner = keras_tuner.RandomSearch(
+tuner = keras_tuner.RandomSearch( # BayesianOptimization - other option
     create_model,
     objective='val_accuracy',
     max_trials=40, # how many model variations to test

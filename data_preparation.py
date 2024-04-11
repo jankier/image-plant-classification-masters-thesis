@@ -26,6 +26,7 @@ def main():
         class_num = categories.index(category)
         
         for img in os.listdir(path):
+            # Displaying broken data
             # if idx == 1351:
             #     print(img)
             try:
@@ -47,6 +48,7 @@ def main():
     y = []
     i = 0
     
+    # Searching for broken data
     for images, labels in prepared_data:
         if np.shape(images) == (224, 224, 3):
             X.append(images)

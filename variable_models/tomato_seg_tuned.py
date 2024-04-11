@@ -25,22 +25,31 @@ shape = (224, 224, 3)
 
 n_categories = len(classes)
 
-dense_0 = 4096
-dense_1 = 1000
-dropout = 0.2
-lr = 0.001
-
 loss_parameter = 'sparse_categorical_crossentropy'
 
 weights_directory = r"./weights"
 
-tune = 1
+tune = 0
 
-if tune > 0:
-    best_weight = "tomato_seg_fine_tune_" + str(tune) + ".weights.best.hdf5"
-    title = "Tomato segmented (fine tune = " + str(tune) + ")"
-    results_title = "tomato_seg_prediction_fine_tune_" + str(tune)
+tuner_version = 0 # 0 - Random Search | 1 - Baysian Optimization 
+
+if tuner_version == 1:
+    
+    dense_0 = 768
+    dense_1 = 700
+    dropout = 0.1
+    lr = 0.0001
+    
+    best_weight = "tomato_seg_tuned_baysian_optimization.weights.best.hdf5"
+    title = "Tomato seg tuned (baysian optimization)"
+    results_title = "tomato_seg_prediction_tuned_baysian_optimization"
 else:
-    best_weight = "tomato_seg.weights.best.hdf5"
-    title = "Tomato segmented"
-    results_title = "tomato_seg_prediction"
+    
+    dense_0 = 2048
+    dense_1 = 800
+    dropout = 0.1
+    lr = 0.00019682683962500205
+    
+    best_weight = "tomato_seg_tuned_random_search.weights.best.hdf5"
+    title = "Tomato seg tuned (random search)"
+    results_title = "tomato_seg_prediction_tuned_random_search"

@@ -1,6 +1,6 @@
 from keras.optimizers import Adam
 from keras.callbacks import ModelCheckpoint, EarlyStopping
-from CNN_architecture import create_model
+from architecture import create_model
 import time
 import neptune
 import numpy as np
@@ -8,7 +8,7 @@ import os
 from dotenv import load_dotenv
 import sys
 sys.path.insert(0, "./variable_models")
-from variable_models.apple_color import npy_directory, training_img_data_name, training_labels_data_name, validation_img_data_name, validation_labels_data_name, weights_directory, best_weight, shape, n_categories, loss_parameter, title, tune
+from variable_models.tomato_seg_tuned import npy_directory, training_img_data_name, training_labels_data_name, validation_img_data_name, validation_labels_data_name, weights_directory, best_weight, shape, n_categories, loss_parameter, title, tune, species_directory, dense_0, dense_1, dropout, lr
 
 load_dotenv()
 
@@ -16,7 +16,6 @@ def main():
     
     # Initializing neptune.ai
     run = neptune.init_run(
-    custom_run_id="Train",
     tags=[title],
     project="jankier/image-plant-classification-masters-thesis",
     api_token=os.getenv('NEPTUNE_AI_TOKEN'),
@@ -24,7 +23,8 @@ def main():
     
     # Setting parameters of CNN
     input_shape = shape
-    optimizer = Adam(learning_rate=0.001)
+    learning_rate = lr
+    optimizer = Adam(learning_rate)
     n_classes = n_categories
     fine_tune = tune
     loss = loss_parameter
@@ -33,7 +33,7 @@ def main():
     
     # ModelCheckpoint to save the best achieved weights
     tl_checkpoint_1 = ModelCheckpoint(
-                                filepath = os.path.join(weights_directory, best_weight),
+                                filepath = os.path.join(weights_directory, species_directory, best_weight),
                                 save_best_only = True,
                                 verbose = 1)
     
@@ -45,7 +45,7 @@ def main():
                         mode = 'min')
     
     # Creation of the model with adjusted parameters
-    final_model = create_model(input_shape, n_classes, optimizer, fine_tune, loss)
+    final_model = create_model(input_shape, n_classes, optimizer, fine_tune, loss, dense_0, dense_1, dropout)
     
     # Printing of the model summary
     print(final_model.summary())
@@ -61,10 +61,10 @@ def main():
     n_epochs = 20
     
     # Passing params to neptune.ai
-    params = {"name": title, "n_classes": n_classes, 
+    params = {"name": title, "n_classes": n_classes,
               "learning_rate": 0.001, "optimizer": "Adam", 
               "loss": loss, "batch_size": batch_size, 
-              "n_epochs": n_epochs}
+              "n_epochs": n_epochs, "fine-tune": tune}
     run["parameters"] = params
 
     # Training of the model
@@ -73,7 +73,7 @@ def main():
                         validation_data = (X_val, y_val),      
                         batch_size = batch_size,
                         epochs = n_epochs,
-                        callbacks = [tl_checkpoint_1, early_stop], # , plot_loss_1
+                        callbacks = [tl_checkpoint_1], #, early_stop , plot_loss_1
                         verbose=1)
     
     # Pass results to neptune.ai
