@@ -29,27 +29,47 @@ loss_parameter = 'sparse_categorical_crossentropy'
 
 weights_directory = r"./weights"
 
-tune = 0
+tune = 1
 
 tuner_version = 0 # 0 - Random Search | 1 - Baysian Optimization 
 
 if tuner_version == 1:
     
-    dense_0 = 256
-    dense_1 = 300
-    dropout = 0.4
-    lr = 0.00024999553530128185
-    
-    best_weight = "tomato_color_tuned_baysian_optimization.weights.best.hdf5"
-    title = "Tomato color tuned (baysian optimization)"
-    results_title = "tomato_color_prediction_tuned_baysian_optimization"
+    if tune > 0:
+        dense_0 = 1024
+        dense_1 = 900
+        dropout = 0.1
+        lr = 0.0001
+        
+        best_weight = "tomato_color_tuned_baysian_optimization_fine_tune_" + str(tune) +".weights.best.hdf5"
+        title = "Tomato color (baysian optimization + fine tune = " + str(tune) + ")"
+        results_title = "tomato_color_prediction_tuned_baysian_optimization_fine_tune_" + str(tune)
+    else:
+        dense_0 = 256
+        dense_1 = 300
+        dropout = 0.4
+        lr = 0.00024999553530128185
+        
+        best_weight = "tomato_color_tuned_baysian_optimization.weights.best.hdf5"
+        title = "Tomato color tuned (baysian optimization)"
+        results_title = "tomato_color_prediction_tuned_baysian_optimization"
 else:
     
-    dense_0 = 1280
-    dense_1 = 600
-    dropout = 0.5
-    lr = 0.00010854128446585706
-    
-    best_weight = "tomato_color_tuned_random_search.weights.best.hdf5"
-    title = "Tomato color tuned (random search)"
-    results_title = "tomato_color_prediction_tuned_random_search"
+    if tune > 0:
+        dense_0 = 1024
+        dense_1 = 900
+        dropout = 0.2
+        lr = 0.00012740002244866934
+        
+        best_weight = "tomato_color_tuned_random_search_fine_tune_" + str(tune) +".weights.best.hdf5"
+        title = "Tomato color (random search + fine tune = " + str(tune) + ")"
+        results_title = "tomato_color_prediction_tuned_random_search_fine_tune_" + str(tune)
+    else:
+        dense_0 = 1280
+        dense_1 = 600
+        dropout = 0.5
+        lr = 0.00010854128446585706
+        
+        best_weight = "tomato_color_tuned_random_search.weights.best.hdf5"
+        title = "Tomato color tuned (random search)"
+        results_title = "tomato_color_prediction_tuned_random_search"

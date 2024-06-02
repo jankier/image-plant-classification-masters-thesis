@@ -8,7 +8,7 @@ import os
 from dotenv import load_dotenv
 import sys
 sys.path.insert(0, "./variable_models")
-from variable_models.tomato_color import npy_directory, species_directory, training_img_data_name, training_labels_data_name, validation_img_data_name, validation_labels_data_name, shape, n_categories, loss_parameter, tune, title
+from variable_models.tomato_seg import npy_directory, species_directory, training_img_data_name, training_labels_data_name, validation_img_data_name, validation_labels_data_name, shape, n_categories, loss_parameter, tune, title
 
 load_dotenv()
 
@@ -44,7 +44,7 @@ def create_model(hp):
         for layer in conv_model.layers:
             layer.trainable = False
             
-    # Creation of custom fully-connected layers to suit data
+    # Creation of custom fully-connected layers to suit data (with hyperparameters)
     top_model = conv_model.output
     top_model = Flatten(name="flatten")(top_model)
     top_model = Dense(hp.Int('dense_0', min_value=256, max_value=4096, step=256), activation='relu')(top_model)

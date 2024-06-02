@@ -29,27 +29,48 @@ loss_parameter = 'sparse_categorical_crossentropy'
 
 weights_directory = r"./weights"
 
-tune = 0
+tune = 1
 
 tuner_version = 1 # 0 - Random Search | 1 - Baysian Optimization
 
 if tuner_version == 1:
     
-    dense_0 = 256
-    dense_1 = 300
-    dropout = 0.2
-    lr = 0.0001406653245871662
-    
-    best_weight = "tomato_gray_tuned_baysian_optimization.weights.best.hdf5"
-    title = "Tomato grayscale tuned (baysian optimization)"
-    results_title = "tomato_gray_prediction_tuned_baysian_optimization"
+    if tune > 0:
+        dense_0 = 1792
+        dense_1 = 1000
+        dropout = 0.30000000000000004
+        lr = 0.0001
+        
+        best_weight = "tomato_gray_tuned_baysian_optimization_fine_tune_" + str(tune) + ".weights.best.hdf5"
+        title = "Tomato grayscale (baysian optimization + fine tune = " + str(tune) + ")"
+        results_title = "tomato_gray_prediction_tuned_baysian_optimization_fine_tune_" + str(tune)
+    else:
+        dense_0 = 256
+        dense_1 = 300
+        dropout = 0.2
+        lr = 0.0001406653245871662
+        
+        best_weight = "tomato_gray_tuned_baysian_optimization.weights.best.hdf5"
+        title = "Tomato grayscale tuned (baysian optimization)"
+        results_title = "tomato_gray_prediction_tuned_baysian_optimization"
+
 else:
     
-    dense_0 = 1792
-    dense_1 = 1000
-    dropout = 0.2
-    lr = 0.00027196868413302354
-    
-    best_weight = "tomato_gray_tuned_random_search.weights.best.hdf5"
-    title = "Tomato grayscale tuned (random search)"
-    results_title = "tomato_gray_prediction_tuned_random_search"
+    if tune > 0:
+        dense_0 = 1536
+        dense_1 = 800
+        dropout = 0.5
+        lr = 0.00033235390013150126
+        
+        best_weight = "tomato_gray_tuned_random_search_fine_tune_" + str(tune) + ".weights.best.hdf5"
+        title = "Tomato grayscale (random search + fine tune = " + str(tune) + ")"
+        results_title = "tomato_gray_prediction_tuned_random_search_fine_tune_" + str(tune)
+    else:
+        dense_0 = 1792
+        dense_1 = 1000
+        dropout = 0.2
+        lr = 0.00027196868413302354
+        
+        best_weight = "tomato_gray_tuned_random_search.weights.best.hdf5"
+        title = "Tomato grayscale tuned (random search)"
+        results_title = "tomato_gray_prediction_tuned_random_search"

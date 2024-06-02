@@ -1,5 +1,6 @@
 from keras.optimizers import Adam
 from keras.callbacks import ModelCheckpoint, EarlyStopping
+from livelossplot.inputs.keras import PlotLossesCallback
 from architecture import create_model
 import time
 import neptune
@@ -17,8 +18,8 @@ def main():
     # Initializing neptune.ai
     run = neptune.init_run(
     tags=[title],
-    project="jankier/image-plant-classification-masters-thesis",
-    api_token=os.getenv('NEPTUNE_AI_TOKEN'),
+    project=os.getenv("PROJECT"),
+    api_token=os.getenv("NEPTUNE_AI_TOKEN"),
     )
     
     # Setting parameters of CNN
@@ -44,6 +45,9 @@ def main():
                         restore_best_weights = True,
                         mode = 'min')
     
+    # PlotLossesCallback to plot the results of current training run
+    plot_loss_1 = PlotLossesCallback()
+    
     # Creation of the model with adjusted parameters
     final_model = create_model(input_shape, n_classes, optimizer, fine_tune, loss, dense_0, dense_1, dropout)
     
@@ -62,9 +66,11 @@ def main():
     
     # Passing params to neptune.ai
     params = {"name": title, "n_classes": n_classes,
-              "learning_rate": 0.001, "optimizer": "Adam", 
+              "learning_rate": lr, "optimizer": "Adam", 
               "loss": loss, "batch_size": batch_size, 
-              "n_epochs": n_epochs, "fine-tune": tune}
+              "n_epochs": n_epochs, "fine-tune": tune,
+              "network": {"dense0":dense_0, "dense1":dense_1, "dropout":dropout}}
+    
     run["parameters"] = params
 
     # Training of the model
@@ -84,9 +90,6 @@ def main():
         run["epoch/val_accuracy"].append(model_history.history["val_accuracy"][epoch])
     
     run.stop()
-    
-    # Saving the model
-    final_model.save('CNN_image_classification.h5')
     
     print(title + ' - learning finished')
     
